@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'date'
+
 FactoryBot.define do
   factory :team do
     name { 'Gremio' }

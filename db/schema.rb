@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_212442) do
+ActiveRecord::Schema.define(version: 2020_06_12_215509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,9 +24,15 @@ ActiveRecord::Schema.define(version: 2020_06_12_212442) do
     t.integer "form_tendency", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "team_id"
+    t.index ["team_id"], name: "index_players_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "primary_color", null: false
+    t.string "secondary_color"
+    t.string "dob", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -58,4 +64,5 @@ ActiveRecord::Schema.define(version: 2020_06_12_212442) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "players", "teams"
 end
