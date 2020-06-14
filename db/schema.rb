@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.string "primary_color", null: false
     t.string "secondary_color"
     t.string "dob", null: false
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,4 +65,5 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "teams", "users"
 end

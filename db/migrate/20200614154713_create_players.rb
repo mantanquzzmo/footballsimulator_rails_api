@@ -9,8 +9,6 @@ class CreatePlayers < ActiveRecord::Migration[6.0]
       t.integer :form_tendency, null: false
       t.integer :team_id
 
-
-
       t.timestamps
     end
   end

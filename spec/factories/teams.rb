@@ -6,5 +6,6 @@ FactoryBot.define do
     primary_color { 'teal' }
     secondary_color { 'blue' }
     dob { Date.today }
+    association :user
   end
 end
