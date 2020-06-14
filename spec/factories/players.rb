@@ -1,10 +1,11 @@
 FactoryBot.define do
   factory :player do
-    name { "Marquinhos" }
-    number { 7 }
-    position { "A" }
-    skill { 7 }
-    form { 16 }
-    form_tendency { 3 }
+    name { 'Marquinhos' }
+    age { 21 }
+    position { 'A' }
+    skill { 5 }
+    form { 11 }
+    form_tendency { 4 }
+    association :team
   end
 end
