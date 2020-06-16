@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_06_14_154713) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "players", force: :cascade do |t|
@@ -31,7 +32,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.string "name", null: false
     t.string "primary_color", null: false
     t.string "secondary_color"
-    t.string "dob", null: false
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

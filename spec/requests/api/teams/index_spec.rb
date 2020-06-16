@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe 'GET /api/teams', type: :request do
-  describe 'Teams' do
-    let(:team) { create(:team) }
-    let(:user) { create(:user) }
-    let(:credentials) { user.create_new_auth_token }
-    let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
+  describe 'Teams index call' do
+      let!(:team) { create_list(:team, 3) }
 
-    it 'are presented to the user' do
+    it 'succesfully presents the teams to the user' do
       get '/api/teams'
 
-      expect(response_json.count).to eq 3
+      expect(response_json.length).to eq 3
     end
   end
 end
-
