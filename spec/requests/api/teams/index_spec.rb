@@ -7,13 +7,18 @@ RSpec.describe 'GET /api/teams', type: :request do
     let(:credentials) { user.create_new_auth_token }
     let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
 
-    it 'succesfully presents teams to the user when not signed in' do
-      get '/api/teams'
-      expect(response_json.length).to eq 3
-    end
+    describe 'index action for teams controller' do
+      before do
+        get '/api/teams'
+      end
 
-    it 'and returns a 200 response status' do
-      expect(response).to have_http_status 200
+      it 'presents three teams to the user' do
+        expect(response_json.length).to eq 3
+      end
+
+      it 'and returns a 200 response status' do
+        expect(response).to have_http_status 200
+      end
     end
 
     describe 'list teams belonging to that user' do

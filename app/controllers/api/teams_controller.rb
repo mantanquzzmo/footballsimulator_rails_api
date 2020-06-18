@@ -10,6 +10,7 @@ class Api::TeamsController < ApplicationController
       teams = Team.all
       teams_to_display << teams
     end
+    
     render json: teams_to_display[0], status: 200
   end
 end
