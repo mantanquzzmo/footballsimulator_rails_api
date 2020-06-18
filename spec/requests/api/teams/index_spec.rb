@@ -2,7 +2,7 @@
 
 RSpec.describe 'GET /api/teams', type: :request do
   describe 'Teams index call' do
-    let!(:team) { create_list(:team, 3) }
+    let!(:team) { create_list(:team, 3, user_id: user.id) }
     let(:user) { create(:user) }
     let(:credentials) { user.create_new_auth_token }
     let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
@@ -26,7 +26,7 @@ RSpec.describe 'GET /api/teams', type: :request do
       end
 
       it 'and returns 3 teams that belong to player' do
-        expect(response_json.length).to eq 2
+        expect(response_json.length).to eq 3
       end
     end
   end
