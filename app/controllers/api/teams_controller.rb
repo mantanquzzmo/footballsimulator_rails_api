@@ -13,6 +13,11 @@ class Api::TeamsController < ApplicationController
     
     render json: teams_to_display[0], status: 200
   end
+
+  def create
+
+  end
+
 end
 
 
