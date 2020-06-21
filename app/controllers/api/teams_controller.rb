@@ -34,6 +34,12 @@ class Api::TeamsController < ApplicationController
     :authenticate_user!
 
     team_to_update = Team.where(id: params[:id])
+
+    if team_to_update[0].user_id != current_user.id
+      render json: { error: 'Only authorized to update own team' }, status: 401
+      return
+    end
+
     team_to_update.update(update_params)
 
     render json: team_to_update[0], status: 200
