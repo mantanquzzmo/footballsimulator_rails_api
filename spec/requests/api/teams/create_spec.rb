@@ -25,15 +25,14 @@ RSpec.describe 'GET /api/teams', type: :request do
       end
     end
 
-    describe 'Unsuccesfully creates a team of choice for the user' do
+    describe 'fails because of no primary color' do
       before do
         post '/api/teams', params: { name: 'Gremio' }, headers: headers
       end
 
-      it 'and returns a 200 response status' do
+      it 'and returns a 422 response status' do
         expect(response).to have_http_status 422
       end
     end
-
   end
 end

@@ -16,6 +16,8 @@ class Api::TeamsController < ApplicationController
   end
 
   def create
+    :authenticate_user!
+
     team = Team.create(name: params[:name],
                        primary_color: params[:primary_color],
                        secondary_color: params[:secondary_color],
@@ -25,6 +27,21 @@ class Api::TeamsController < ApplicationController
       render json: team
     else
       render json: { error: team.errors.full_messages }, status: 422
-    end      
+    end
+  end
+
+  def update
+    :authenticate_user!
+
+    team_to_update = Team.where(id: params[:id])
+    team_to_update.update(update_params)
+
+    render json: team_to_update[0], status: 200
+  end
+
+
+  private
+  def update_params
+    params.permit(:name, :primary_color, :secondary_color).reject { |_k, v| v.nil? }
   end
 end
