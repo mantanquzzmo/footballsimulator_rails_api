@@ -22,9 +22,9 @@ class Api::TeamsController < ApplicationController
     :authenticate_user!
 
     team = Team.create(name: params[:name],
-                       primary_color: params[:primary_color],
-                       secondary_color: params[:secondary_color],
-                       user_id: current_user.id)
+                        primary_color: params[:primary_color],
+                        secondary_color: params[:secondary_color],
+                        user_id: current_user.id)
 
     if team.persisted?
       players = generate_players(team.id)

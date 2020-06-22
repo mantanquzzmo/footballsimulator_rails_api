@@ -17,11 +17,15 @@ RSpec.describe 'GET /api/teams', type: :request do
       end
 
       it 'and returns info about the team' do
-        expect(response_json['name']).to eq 'Gremio'
+        expect(response_json[0]['name']).to eq 'Gremio'
       end
 
       it 'and returns info about the team' do
-        expect(response_json.length).to eq 7
+        expect(response_json[0].length).to eq 7
+      end
+
+      it 'and returns info about the players' do  
+        expect(response_json[1][0]['position']).to eq 'G'
       end
     end
 
