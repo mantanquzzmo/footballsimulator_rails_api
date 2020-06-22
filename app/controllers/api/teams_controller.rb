@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Api::TeamsController < ApplicationController
+
+  include PlayersCreator
+
   def index
     teams_to_display = []
 
@@ -24,7 +27,9 @@ class Api::TeamsController < ApplicationController
                        user_id: current_user.id)
 
     if team.persisted?
-      render json: team
+      players = generate_players(team.id)
+      team_and_players = [team, players]
+      render json: team_and_players
     else
       render json: { error: team.errors.full_messages }, status: 422
     end
@@ -36,7 +41,7 @@ class Api::TeamsController < ApplicationController
     team_to_update = Team.where(id: params[:id])
 
     if team_to_update[0].user_id != current_user.id
-      render json: { error: 'Only authorized to update own team' }, status: 401
+      render json: { error: 'Only authorized to update current users team' }, status: 401
       return
     end
 
