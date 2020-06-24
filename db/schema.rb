@@ -13,25 +13,26 @@
 ActiveRecord::Schema.define(version: 2020_06_14_154713) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "players", force: :cascade do |t|
     t.string "name", null: false
     t.integer "age", null: false
     t.string "position", null: false
-    t.integer "skill", null: false
+    t.float "skill", null: false
     t.integer "form", null: false
     t.integer "form_tendency", null: false
-    t.integer "team_id"
+    t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["team_id"], name: "index_players_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "primary_color", null: false
+    t.string "name"
+    t.string "primary_color"
     t.string "secondary_color"
-    t.string "dob", null: false
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -65,5 +66,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "players", "teams"
   add_foreign_key "teams", "users"
 end

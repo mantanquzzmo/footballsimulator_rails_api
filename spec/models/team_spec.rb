@@ -3,7 +3,6 @@ RSpec.describe Team, type: :model do
     it { is_expected.to have_db_column :name }
     it { is_expected.to have_db_column :primary_color }
     it { is_expected.to have_db_column :secondary_color }
-    it { is_expected.to have_db_column :dob }
   end
 
   describe 'Associations' do
@@ -13,7 +12,7 @@ RSpec.describe Team, type: :model do
 
   describe 'Factory' do
     it 'should have valid Factory' do
-      expect(FactoryBot.create(:player)).to be_valid
+      expect(create(:team)).to be_valid
     end
   end
 end
