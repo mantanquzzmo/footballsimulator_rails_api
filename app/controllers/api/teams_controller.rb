@@ -53,6 +53,6 @@ class Api::TeamsController < ApplicationController
 
   private
   def update_params
-    params.permit(:name, :primary_color, :secondary_color).reject { |_k, v| v.nil? }
+    params.permit(:name, :primary_color, :secondary_color, :id).reject { |_k, v| v.nil? }
   end
 end
