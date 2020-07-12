@@ -8,7 +8,7 @@ class Api::TeamsController < ApplicationController
     teams_to_display = []
 
     if current_user
-      teams = Team.where(user_id: current_user.id)
+      teams = Team.where(user_id: current_user.id).last(3)
       teams_to_display << teams
     else
       teams = Team.all
@@ -48,6 +48,15 @@ class Api::TeamsController < ApplicationController
     team_to_update.update(update_params)
 
     render json: team_to_update[0], status: 200
+  end
+
+  def show
+    :authenticate_user!
+    team = Team.find_by(id: params[:id])
+    players = Player.where(team_id: params[:id])
+    team_and_players = [team, players]
+
+    render json: team_and_players
   end
 
 
