@@ -14,8 +14,12 @@ class Api::TeamsController < ApplicationController
       teams = Team.all
       teams_to_display << teams
     end
-
-    render json: teams_to_display[0], status: 200
+    
+    if teams_to_display[0].empty?
+      render json: { error: "You have no teams" }, status: 422
+    else
+      render json: teams_to_display[0], status: 200
+    end
   end
 
   def create
