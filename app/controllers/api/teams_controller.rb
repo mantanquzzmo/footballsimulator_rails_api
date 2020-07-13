@@ -8,14 +8,18 @@ class Api::TeamsController < ApplicationController
     teams_to_display = []
 
     if current_user
-      teams = Team.where(user_id: current_user.id)
+      teams = Team.where(user_id: current_user.id).last(3)
       teams_to_display << teams
     else
       teams = Team.all
       teams_to_display << teams
     end
-
-    render json: teams_to_display[0], status: 200
+    
+    if teams_to_display[0].empty?
+      render json: { error: "You have no teams" }, status: 422
+    else
+      render json: teams_to_display[0], status: 200
+    end
   end
 
   def create
@@ -50,9 +54,18 @@ class Api::TeamsController < ApplicationController
     render json: team_to_update[0], status: 200
   end
 
+  def show
+    :authenticate_user!
+    team = Team.find_by(id: params[:id])
+    players = Player.where(team_id: params[:id])
+    team_and_players = [team, players]
+
+    render json: team_and_players
+  end
+
 
   private
   def update_params
-    params.permit(:name, :primary_color, :secondary_color).reject { |_k, v| v.nil? }
+    params.permit(:name, :primary_color, :secondary_color, :id).reject { |_k, v| v.nil? }
   end
 end
