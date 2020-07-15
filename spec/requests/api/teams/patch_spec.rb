@@ -25,7 +25,7 @@ RSpec.describe 'GET /api/teams', type: :request do
       end
 
       it 'together will all the info about the team' do
-        expect(response_json.length).to eq 7
+        expect(response_json.length).to eq 8
       end
     end
 

@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.string "name"
     t.string "primary_color"
     t.string "secondary_color"
+    t.integer "balance", default: 100
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

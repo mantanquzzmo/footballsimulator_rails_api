@@ -37,7 +37,7 @@ module PlayersCreator
     first_names = %w[Eusebio Reinier Exequiel Leonel Sergio James Donovan Stephen ]
     surnames = %w[Marquinhos Palacios Silva Johnson Thompson Smith McGrady]
 
-    full_name = "#{first_names[rand(0..2)]} #{surnames[rand(0..2)]}"
+    full_name = "#{first_names[rand(0..7)]} #{surnames[rand(0..6)]}"
   end
 
   def skill_pot(skill_total)
