@@ -27,7 +27,7 @@ class Api::TrainingsController < ApplicationController
         balance = team.balance
         balance -= 15
         team.update(balance: balance)
-        render json: training_session, status: 200
+        render json: [player.name, training_session], status: 200
       else
         render json: { error: 'Something went wrong' }, status: 401
       end
