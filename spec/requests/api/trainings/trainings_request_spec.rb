@@ -7,7 +7,7 @@ RSpec.describe 'Trainings', type: :request do
     let(:user) { create(:user) }
     let(:credentials) { user.create_new_auth_token }
     let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
-    let!(:team) { create(:team) }
+    let!(:team) { create(:team, user_id: user.id) }
     let!(:player) { create(:player, team_id: team.id) }
 
     describe 'show action for players controller' do
@@ -17,7 +17,6 @@ RSpec.describe 'Trainings', type: :request do
       end
 
       it 'and returns a 200 response status' do
-        binding.pry
         expect(response).to have_http_status 200
       end
     end
