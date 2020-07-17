@@ -12,20 +12,20 @@ RSpec.describe 'Players', type: :request do
 
       before do
         post '/api/teams', params: { name: 'Gremio',
-                                     primary_color: 'teal' }, headers: headers
+                                    primary_color: 'teal' }, headers: headers
         players = Player.all
         player = players[0]
         get "/api/players/#{player.id}"
       end
 
       it 'presents three teams to the user' do
-        expect(response_json.length).to eq 10
+        expect(response_json[0].length).to eq 10
       end
 
 
       it 'presents the players attributes' do
         players = Player.all
-        expect(response_json["skill"]).to eq players[0].skill
+        expect(response_json[0]["skill"]).to eq players[0].skill
       end
 
       it 'and returns a 200 response status' do

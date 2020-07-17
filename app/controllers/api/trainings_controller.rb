@@ -33,4 +33,6 @@ class Api::TrainingsController < ApplicationController
       end
     end
   end
+
+
 end

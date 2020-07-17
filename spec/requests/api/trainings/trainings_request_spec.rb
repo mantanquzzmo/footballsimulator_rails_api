@@ -43,7 +43,6 @@ RSpec.describe 'Trainings', type: :request do
       end
 
       it 'returns an error message' do
-        binding.pry
         expect(response_json["error"]).to eq "Only authorized to train your own players"
       end
     end
