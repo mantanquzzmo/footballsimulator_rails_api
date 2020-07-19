@@ -1,0 +1,18 @@
+
+RSpec.describe CpuTeam, type: :model do
+  describe 'Database table' do
+    it { is_expected.to have_db_column :name }
+    it { is_expected.to have_db_column :primary_color }
+    it { is_expected.to have_db_column :secondary_color }
+  end
+
+  describe 'Associations' do
+    it { is_expected.to have_many :players }
+  end
+
+  describe 'Factory' do
+    it 'should have valid Factory' do
+      expect(create(:cpu_team)).to be_valid
+    end
+  end
+end

@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_19_224958) do
+ActiveRecord::Schema.define(version: 2020_07_19_234443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
+
+  create_table "cpu_teams", force: :cascade do |t|
+    t.string "name"
+    t.string "primary_color"
+    t.string "secondary_color"
+    t.integer "balance", default: 100
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "players", force: :cascade do |t|
     t.string "name", null: false
