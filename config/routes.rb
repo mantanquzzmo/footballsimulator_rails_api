@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :teams, only: %i[index create update show]
     resources :players, only: [:show]
-    resources :trainings, only: [:create]
+    resources :trainings, only: [:create, :index]
   end
 end

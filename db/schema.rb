@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_15_210800) do
+ActiveRecord::Schema.define(version: 2020_07_19_224958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -27,6 +27,21 @@ ActiveRecord::Schema.define(version: 2020_07_15_210800) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["team_id"], name: "index_players_on_team_id"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.string "season_teams", default: [], array: true
+    t.bigint "teams_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["teams_id"], name: "index_seasons_on_teams_id"
+  end
+
+  create_table "seasons_teams", id: false, force: :cascade do |t|
+    t.bigint "season_id", null: false
+    t.bigint "team_id", null: false
+    t.index ["season_id", "team_id"], name: "index_seasons_teams_on_season_id_and_team_id"
+    t.index ["team_id", "season_id"], name: "index_seasons_teams_on_team_id_and_season_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -78,5 +93,6 @@ ActiveRecord::Schema.define(version: 2020_07_15_210800) do
   end
 
   add_foreign_key "players", "teams"
+  add_foreign_key "seasons", "teams", column: "teams_id"
   add_foreign_key "teams", "users"
 end
