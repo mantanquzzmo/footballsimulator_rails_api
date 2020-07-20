@@ -10,6 +10,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'devise_token_auth'
 gem 'rubystats'
+gem 'round_robin_tournament'
 
 group :development, :test do
   gem 'rspec-rails'
