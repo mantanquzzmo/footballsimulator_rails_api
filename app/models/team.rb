@@ -4,4 +4,5 @@ class Team < ApplicationRecord
   has_many :players
   belongs_to :user
   has_and_belongs_to_many :seasons
+  has_many :games
 end

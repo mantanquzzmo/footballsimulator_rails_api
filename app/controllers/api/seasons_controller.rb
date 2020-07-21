@@ -27,8 +27,9 @@ class Api::SeasonsController < ApplicationController
         render json: { error: team.errors.full_messages }, status: 422
       end
     end
-
     schedule = RoundRobinTournament.schedule(season.teams.map { |x| x.name })
+
+    binding.pry
 
     render json: [season.teams, schedule]
   end
