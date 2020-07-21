@@ -10,20 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_19_234443) do
+ActiveRecord::Schema.define(version: 2020_07_19_221816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
-
-  create_table "cpu_teams", force: :cascade do |t|
-    t.string "name"
-    t.string "primary_color"
-    t.string "secondary_color"
-    t.integer "balance", default: 100
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "players", force: :cascade do |t|
     t.string "name", null: false
@@ -46,13 +37,6 @@ ActiveRecord::Schema.define(version: 2020_07_19_234443) do
     t.index ["teams_id"], name: "index_seasons_on_teams_id"
   end
 
-  create_table "seasons_teams", id: false, force: :cascade do |t|
-    t.bigint "season_id", null: false
-    t.bigint "team_id", null: false
-    t.index ["season_id", "team_id"], name: "index_seasons_teams_on_season_id_and_team_id"
-    t.index ["team_id", "season_id"], name: "index_seasons_teams_on_team_id_and_season_id"
-  end
-
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.string "primary_color"
@@ -65,13 +49,14 @@ ActiveRecord::Schema.define(version: 2020_07_19_234443) do
   end
 
   create_table "trainings", force: :cascade do |t|
-    t.integer "player_id", null: false
     t.integer "form_before", null: false
     t.integer "form_after", null: false
     t.integer "form_tendency_before", null: false
     t.integer "form_tendency_after", null: false
+    t.bigint "player_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_trainings_on_player_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -104,4 +89,5 @@ ActiveRecord::Schema.define(version: 2020_07_19_234443) do
   add_foreign_key "players", "teams"
   add_foreign_key "seasons", "teams", column: "teams_id"
   add_foreign_key "teams", "users"
+  add_foreign_key "trainings", "players"
 end
