@@ -6,11 +6,11 @@ class Api::SeasonsController < ApplicationController
   def create
     :authenticate_user!
 
-    cpu_opponent = User.create(email: 'cpu_opponent' + rand(0..1000).to_s + '@mail.com', password: 'password')
+    cpu_opponent = User.create(email: 'cpu_opponent' + current_user.id.to_s + '@mail.com', password: 'password')
     player_team = Team.where(id: params[:team_id])
-    season_teams = [player_team[0]]
     season_teams_names = [player_team[0].name]
-
+    season = Season.create()
+    season.teams << player_team[0]
 
     (0..4).each do |i|
       team_name = team_name_generator(i)
@@ -21,16 +21,16 @@ class Api::SeasonsController < ApplicationController
 
       if team.persisted?
         players = generate_players(team.id)
-        season_teams << team
+        season.teams << team
         season_teams_names << team.name
       else
         render json: { error: team.errors.full_messages }, status: 422
       end
     end
-    
-    schedule = RoundRobinTournament.schedule(season_teams_names)
 
-    render json: [season_teams, schedule]
+    schedule = RoundRobinTournament.schedule(season.teams.map { |x| x.name })
+
+    render json: [season.teams, schedule]
   end
 end
 

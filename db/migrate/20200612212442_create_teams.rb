@@ -9,6 +9,7 @@ class CreateTeams < ActiveRecord::Migration[6.0]
       t.string :secondary_color, null: true
       t.integer :balance, default: 100
       t.belongs_to :user, foreign_key: true
+      t.boolean :cpu_team, default: false
 
       t.timestamps
     end

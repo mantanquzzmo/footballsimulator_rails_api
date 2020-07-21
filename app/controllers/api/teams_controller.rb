@@ -8,7 +8,7 @@ class Api::TeamsController < ApplicationController
     teams_to_display = []
 
     if current_user
-      teams = Team.where(user_id: current_user.id).last(3)
+      teams = Team.where(user_id: current_user.id, cpu_team: false ).last(3)
       teams_to_display << teams
     else
       teams = Team.all
