@@ -29,8 +29,6 @@ class Api::SeasonsController < ApplicationController
     end
     schedule = RoundRobinTournament.schedule(season.teams.map { |x| x.name })
 
-    binding.pry
-
     render json: [season.teams, schedule]
   end
 end

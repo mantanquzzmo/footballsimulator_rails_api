@@ -18,21 +18,21 @@ ActiveRecord::Schema.define(version: 2020_07_21_232951) do
 
   create_table "games", force: :cascade do |t|
     t.integer "round", null: false
-    t.string "ht_name", null: false
-    t.string "at_name", null: false
-    t.integer "ht_id", null: false
-    t.integer "at_id", null: false
-    t.string "ht_p_names", null: false
-    t.string "at_p_names", null: false
-    t.integer "ht_p_skill", null: false
-    t.integer "at_p_skill", null: false
-    t.boolean "ht_p_start"
-    t.boolean "at_p_start"
+    t.string "ht_name", null: false, array: true
+    t.string "at_name", null: false, array: true
+    t.integer "ht_id", null: false, array: true
+    t.integer "at_id", null: false, array: true
+    t.string "ht_p_names", null: false, array: true
+    t.string "at_p_names", null: false, array: true
+    t.float "ht_p_skill", null: false, array: true
+    t.float "at_p_skill", null: false, array: true
+    t.boolean "ht_p_start", array: true
+    t.boolean "at_p_start", array: true
     t.string "outcome"
     t.string "result"
     t.string "halftime_result"
-    t.float "ht_prf"
-    t.float "at_prf"
+    t.float "ht_prf", array: true
+    t.float "at_prf", array: true
     t.bigint "season_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -60,6 +60,10 @@ ActiveRecord::Schema.define(version: 2020_07_21_232951) do
   end
 
   create_table "seasons", force: :cascade do |t|
+    t.string "winner"
+    t.integer "winner_id"
+    t.string "top_goalscorer"
+    t.integer "top_goalscorer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
