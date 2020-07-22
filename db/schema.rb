@@ -17,6 +17,22 @@ ActiveRecord::Schema.define(version: 2020_07_21_232951) do
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
+    t.integer "round", null: false
+    t.string "ht_name", null: false
+    t.string "at_name", null: false
+    t.integer "ht_id", null: false
+    t.integer "at_id", null: false
+    t.string "ht_p_names", null: false
+    t.string "at_p_names", null: false
+    t.integer "ht_p_skill", null: false
+    t.integer "at_p_skill", null: false
+    t.boolean "ht_p_start"
+    t.boolean "at_p_start"
+    t.string "outcome"
+    t.string "result"
+    t.string "halftime_result"
+    t.float "ht_prf"
+    t.float "at_prf"
     t.bigint "season_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
