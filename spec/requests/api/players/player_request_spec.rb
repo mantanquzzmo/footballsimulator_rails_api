@@ -9,7 +9,6 @@ RSpec.describe 'Players', type: :request do
     let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
 
     describe 'show action for players controller' do
-
       before do
         post '/api/teams', params: { name: 'Gremio',
                                     primary_color: 'teal' }, headers: headers
@@ -19,7 +18,7 @@ RSpec.describe 'Players', type: :request do
       end
 
       it 'presents three teams to the user' do
-        expect(response_json[0].length).to eq 10
+        expect(response_json[0].length).to eq 12
       end
 
 

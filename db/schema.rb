@@ -10,33 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_21_232951) do
+ActiveRecord::Schema.define(version: 2020_07_23_173120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
-    t.integer "round", null: false
-    t.string "ht_name", null: false, array: true
-    t.string "at_name", null: false, array: true
-    t.integer "ht_id", null: false, array: true
-    t.integer "at_id", null: false, array: true
-    t.string "ht_p_names", null: false, array: true
-    t.string "at_p_names", null: false, array: true
-    t.float "ht_p_skill", null: false, array: true
-    t.float "at_p_skill", null: false, array: true
-    t.boolean "ht_p_start", array: true
-    t.boolean "at_p_start", array: true
-    t.string "outcome"
-    t.string "result"
-    t.string "halftime_result"
-    t.float "ht_prf", array: true
-    t.float "at_prf", array: true
     t.bigint "season_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["season_id"], name: "index_games_on_season_id"
+  end
+
+  create_table "games_players", id: false, force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "player_id", null: false
+    t.index ["game_id", "player_id"], name: "index_games_players_on_game_id_and_player_id"
+    t.index ["player_id", "game_id"], name: "index_games_players_on_player_id_and_game_id"
   end
 
   create_table "games_teams", id: false, force: :cascade do |t|
@@ -53,6 +44,8 @@ ActiveRecord::Schema.define(version: 2020_07_21_232951) do
     t.float "skill", null: false
     t.integer "form", null: false
     t.integer "form_tendency", null: false
+    t.boolean "starting_11", null: false
+    t.integer "original_player_id"
     t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
