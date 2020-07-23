@@ -3,8 +3,9 @@
 require 'round_robin_tournament'
 
 class Api::SeasonsController < ApplicationController
-  include PlayersCreator
+  include GamesCreator
   include TeamsCreator
+  include PlayersCreator
 
   def create
     :authenticate_user!
@@ -30,9 +31,8 @@ class Api::SeasonsController < ApplicationController
         render json: { error: team.errors.full_messages }, status: 422
       end
     end
-    schedule = RoundRobinTournament.schedule(season.teams.map(&:name))
+    schedule = generate_games(season)
 
-
-    render json: [season, schedule]
+    render json: [season.teams, schedule], status: 200
   end
 end
