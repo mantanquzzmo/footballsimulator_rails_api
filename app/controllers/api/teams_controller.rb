@@ -58,9 +58,10 @@ class Api::TeamsController < ApplicationController
     :authenticate_user!
     team = Team.find_by(id: params[:id])
     players = Player.where(team_id: params[:id])
-    team_and_players = [team, players]
+    seasons = team.seasons
+    team_and_players_seasons = [team, players, seasons]
 
-    render json: team_and_players
+    render json: team_and_players_seasons
   end
 
 

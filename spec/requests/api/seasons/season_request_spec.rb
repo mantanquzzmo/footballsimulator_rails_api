@@ -14,23 +14,27 @@ RSpec.describe 'Seasons', type: :request do
     end
 
     it 'presents the teams and the schedule' do
-      expect(response_json.length).to eq 2
+      expect(response_json.length).to eq 3
     end
 
     it 'schedule should have 5 rounds' do
-      expect(response_json[1].length).to eq 5
+      expect(response_json[2].length).to eq 5
     end
 
     it 'teams should be 6' do
-      expect(response_json[0].length).to eq 6
+      expect(response_json[1].length).to eq 6
+    end
+
+    it 'season details to be presented' do
+      expect(response_json[0].length).to eq 9
     end
 
     it '5 teams should have same computer_id' do
-      expect(response_json[0][1]["user_id"]).to eq response_json[0][2]["user_id"]
+      expect(response_json[1][1]["user_id"]).to eq response_json[1][2]["user_id"]
     end
 
     it 'User team should be presented first' do
-      expect(response_json[0][0]["user_id"]).not_to eq response_json[0][2]["user_id"]
+      expect(response_json[1][0]["user_id"]).not_to eq response_json[1][2]["user_id"]
     end
   end
 end

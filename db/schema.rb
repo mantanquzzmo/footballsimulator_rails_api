@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
   end
 
   create_table "seasons", force: :cascade do |t|
+    t.integer "round", default: 0
+    t.integer "total_rounds"
     t.string "winner"
     t.integer "winner_id"
     t.string "top_goalscorer"
