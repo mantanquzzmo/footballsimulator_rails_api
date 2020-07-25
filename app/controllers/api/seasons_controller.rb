@@ -37,7 +37,6 @@ class Api::SeasonsController < ApplicationController
 
   def show ##two shows dependent on completed or not
     season = Season.find(params[:id])
-    season.update(round: 2)
     league_table_info = []
 
     season.teams.each do |team|

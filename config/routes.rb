@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     resources :players, only: [:show]
     resources :trainings, only: %i[create index]
     resources :seasons, only: %i[create show]
+    get 'rounds', to: 'rounds#show'
   end
 end
