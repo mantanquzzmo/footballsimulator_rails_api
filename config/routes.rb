@@ -6,6 +6,6 @@ Rails.application.routes.draw do
     resources :teams, only: %i[index create update show]
     resources :players, only: [:show]
     resources :trainings, only: %i[create index]
-    resources :seasons, only: [:create]
+    resources :seasons, only: %i[create show]
   end
 end

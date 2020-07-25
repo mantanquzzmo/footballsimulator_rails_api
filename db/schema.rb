@@ -18,7 +18,11 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
 
   create_table "games", force: :cascade do |t|
     t.integer "round", null: false
-    t.string "outcome"
+    t.integer "home_team_id"
+    t.integer "away_team_id"
+    t.integer "goals_ht"
+    t.integer "goals_at"
+    t.integer "winner_team_id"
     t.string "result"
     t.string "halftime_result"
     t.bigint "season_id"
@@ -60,6 +64,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
   create_table "seasons", force: :cascade do |t|
     t.integer "round", default: 0
     t.integer "total_rounds"
+    t.boolean "completed", default: false
     t.string "winner"
     t.integer "winner_id"
     t.string "top_goalscorer"

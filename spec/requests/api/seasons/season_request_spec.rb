@@ -26,7 +26,7 @@ RSpec.describe 'Seasons', type: :request do
     end
 
     it 'season details to be presented' do
-      expect(response_json[0].length).to eq 9
+      expect(response_json[0].length).to eq 10
     end
 
     it '5 teams should have same computer_id' do

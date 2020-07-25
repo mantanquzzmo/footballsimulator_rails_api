@@ -6,6 +6,7 @@ class CreateSeasons < ActiveRecord::Migration[6.0]
 
       t.integer :round, default: 0
       t.integer :total_rounds
+      t.boolean :completed, default: 0
       t.string :winner
       t.integer :winner_id
       t.string :top_goalscorer
