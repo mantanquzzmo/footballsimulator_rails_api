@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
     t.integer "goals_at"
     t.integer "winner_team_id"
     t.string "result"
-    t.string "halftime_result"
     t.bigint "season_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

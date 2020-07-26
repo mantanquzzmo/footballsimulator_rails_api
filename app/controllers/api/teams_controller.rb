@@ -58,7 +58,7 @@ class Api::TeamsController < ApplicationController
     :authenticate_user!
     team = Team.find_by(id: params[:id])
     players = Player.where(team_id: params[:id])
-    seasons = team.seasons
+    seasons = team.seasons.last(1)[0]
     team_and_players_seasons = [team, players, seasons]
 
     render json: team_and_players_seasons

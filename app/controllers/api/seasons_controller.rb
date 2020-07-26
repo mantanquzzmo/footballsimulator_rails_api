@@ -27,7 +27,9 @@ class Api::SeasonsController < ApplicationController
         season.teams << team
       else
         render json: { error: team.errors.full_messages }, status: 422
+        break
       end
+
     end
     schedule = generate_games(season)
     season.update(total_rounds: schedule.length)
