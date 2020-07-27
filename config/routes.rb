@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     resources :trainings, only: %i[create index]
     resources :seasons, only: %i[create show]
     get 'rounds', to: 'rounds#show'
+    put 'rounds', to: 'rounds#update'
   end
 end
