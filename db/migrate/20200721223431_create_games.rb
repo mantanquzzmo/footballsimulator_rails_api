@@ -2,6 +2,8 @@ class CreateGames < ActiveRecord::Migration[6.0]
   def change
     create_table :games do |t|
       t.integer :round, null: false
+      t.string :home_team
+      t.string :away_team
       t.integer :home_team_id
       t.integer :away_team_id
       t.integer :goals_ht

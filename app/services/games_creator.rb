@@ -13,8 +13,9 @@ module GamesCreator
       round.each do |game|
         hometeam = Team.find(game[0])
         awayteam = Team.find(game[1])
-        game = Game.create(season_id: season.id, round: @round_no,
-                           home_team_id: hometeam.id, away_team_id: awayteam.id)
+        game = Game.create(season_id: season.id, round: @round_no, 
+                          home_team: hometeam.name, away_team: awayteam.name,
+                          home_team_id: hometeam.id, away_team_id: awayteam.id)
         game.teams << hometeam
         game.teams << awayteam
       end

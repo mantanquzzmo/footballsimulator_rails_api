@@ -29,7 +29,7 @@ RSpec.describe 'Seasons', type: :request do
     end
 
     it 'with detailed info' do
-      expect(response_json[0].length).to eq 9
+      expect(response_json[0].length).to eq 10
     end
   end
 end

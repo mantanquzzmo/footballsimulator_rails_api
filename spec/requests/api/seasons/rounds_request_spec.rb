@@ -27,7 +27,7 @@ RSpec.describe "Rounds", type: :request do
     end
 
     it 'with detailed match info' do
-      expect(response_json[0].length).to eq 12
+      expect(response_json[0].length).to eq 13
     end
   end
 end

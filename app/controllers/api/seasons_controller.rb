@@ -38,6 +38,7 @@ class Api::SeasonsController < ApplicationController
   end
 
   def show ##two shows dependent on completed or not
+    :authenticate_user!
     season = Season.find(params[:id])
     league_table_info = []
 
@@ -46,6 +47,7 @@ class Api::SeasonsController < ApplicationController
       wins = Game.where(winner_team_id: team.id).length 
       draws = Game.where(result: "X").length 
       losses = season.round - (wins + draws)
+      played = wins + draws + losses
       goals_for = 0
       goals_against = 0
       goal_difference = 0
@@ -62,7 +64,7 @@ class Api::SeasonsController < ApplicationController
         goals_against += game.goals_ht
       end
 
-      team_current_standing = [team.name, team.id, wins, draws, losses, goals_for, goals_against, (goals_for - goals_against), points]
+      team_current_standing = [team.name, team.id, played, wins, draws, losses, goals_for, goals_against, (goals_for - goals_against), points]
       league_table_info << team_current_standing
     end
 

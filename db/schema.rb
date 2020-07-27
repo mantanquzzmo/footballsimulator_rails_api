@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
 
   create_table "games", force: :cascade do |t|
     t.integer "round", null: false
+    t.string "home_team"
+    t.string "away_team"
     t.integer "home_team_id"
     t.integer "away_team_id"
     t.integer "goals_ht"
