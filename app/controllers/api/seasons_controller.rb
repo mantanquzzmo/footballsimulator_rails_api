@@ -9,6 +9,10 @@ class Api::SeasonsController < ApplicationController
     :authenticate_user!
 
     cpu_opponent = User.create(email: 'cpu_opponent' + current_user.id.to_s + '@mail.com', password: 'password')
+    if !cpu_opponent.persisted?
+      cpu_opponent = User.find_by(email: 'cpu_opponent' + current_user.id.to_s + '@mail.com')
+    end
+
     player_team = Team.where(id: params[:team_id])
     season = Season.create
     season.teams << player_team[0]
