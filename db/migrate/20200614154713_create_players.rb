@@ -9,7 +9,7 @@ class CreatePlayers < ActiveRecord::Migration[6.0]
       t.integer :form_tendency, null: false
       t.boolean :starting_11, null: false
       t.integer :original_player_id
-      t.integer :performance
+      t.float :performance
       t.belongs_to :team, foreign_key: true
       t.timestamps
     end

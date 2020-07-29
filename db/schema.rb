@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
     t.integer "form_tendency", null: false
     t.boolean "starting_11", null: false
     t.integer "original_player_id"
-    t.integer "performance"
+    t.float "performance"
     t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

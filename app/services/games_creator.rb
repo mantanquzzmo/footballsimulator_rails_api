@@ -18,6 +18,9 @@ module GamesCreator
                           home_team_id: hometeam.id, away_team_id: awayteam.id)
         game.teams << hometeam
         game.teams << awayteam
+        game.players << hometeam.players
+        game.players << awayteam.players
+        
       end
     end
     RoundRobinTournament.schedule(season.teams.map(&:name))
