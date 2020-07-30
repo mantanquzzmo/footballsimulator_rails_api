@@ -6,7 +6,7 @@ module GamesDecider
       hometeam = game.teams[0]
       awayteam = game.teams[1]
 
-      ## calculate each players value
+      ## calculate each starting players values
       game.players.where(starting_11: true).each do |player|
         match_performance = player_performance(player)
         new_form = form_calculator(player, match_performance)
@@ -28,7 +28,21 @@ module GamesDecider
       game.players.where(starting_11: true, position: 'A', team_id: hometeam.id).each { |player| ht_att += player.performance }
       game.players.where(starting_11: true, position: 'A', team_id: awayteam.id).each { |player| at_att += player.performance }
 
-      match_outcome(ht_gk, ht_def, ht_mid, ht_att, at_gk, at_def, at_mid, at_att)
+      game_outcome = match_outcome(ht_gk, ht_def, ht_mid, ht_att, at_gk, at_def, at_mid, at_att)
+      result = ''
+      winning_team_id = nil
+      
+      if game_outcome[0] > game_outcome[1]
+        result = '1'
+        winning_team_id = game.teams[0].id
+      elsif game_outcome[1] > game_outcome[0]
+        result = '2'
+        winning_team_id = game.teams[1].id
+      else 
+        result = 'X'
+      end
+
+      game.update(goals_ht: game_outcome[0], goals_at: game_outcome[1], winner_team_id: winning_team_id, result: result)
     end
   end
 
@@ -145,5 +159,7 @@ module GamesDecider
     at_chances.times do
       awayteam_goals += 1 if rand < at_chance_of_scoring
     end
+
+    [hometeam_goals, awayteam_goals]
   end
 end

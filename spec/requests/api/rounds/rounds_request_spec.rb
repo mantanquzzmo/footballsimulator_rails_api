@@ -52,8 +52,12 @@ RSpec.describe "Rounds", type: :request do
       put "/api/rounds/", params: { season_id: season.id, round: 3 }, headers: headers
     end
 
-    it 'returns the games of the round' do
+    it 'returns the results of the round' do
       expect(response_json.length).to eq 3
+    end
+
+    it 'with each games corresponding info' do
+      expect(response_json[0].length).to eq 13
     end
   end
 end

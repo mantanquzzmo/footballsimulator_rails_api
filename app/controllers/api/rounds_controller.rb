@@ -12,5 +12,7 @@ class Api::RoundsController < ApplicationController
     games = Game.where(season_id: params[:season_id], round: params[:round])
     
     games_decider(games)
+
+    render json: games, status: 200
   end
 end

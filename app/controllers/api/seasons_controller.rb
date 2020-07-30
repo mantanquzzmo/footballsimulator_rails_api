@@ -49,7 +49,7 @@ class Api::SeasonsController < ApplicationController
     season.teams.each do |team|
       points = (Game.where(winner_team_id: team.id).length * 3) + (Game.where(result: "X")).length
       wins = Game.where(winner_team_id: team.id).length 
-      draws = Game.where(result: "X").length 
+      draws = Game.where(result: 'X').length 
       losses = season.round - (wins + draws)
       played = wins + draws + losses
       goals_for = 0
