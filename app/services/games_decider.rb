@@ -11,22 +11,25 @@ module GamesDecider
         match_performance = player_performance(player)
         new_form = form_calculator(player, match_performance)
         new_form_tendency = tendency_calculator(player, new_form)
-        player_match_clone = player.dup
-        player_match_clone.update(performance: player_performance(player), original_player_id: player.id)
+        performance = player_performance(player)
+        player_match_copy = PlayerGameCopy.create(id: player.id, name: player.name, 
+                                                      age: player.age, position: player.position, skill: player.skill, 
+                                                      form: player.form, form_tendency: player.form_tendency, 
+                                                      starting_11: player.starting_11, team_id: player.team_id, 
+                                                      performance: performance, game_id: game.id)
+
         player.update(form: new_form, form_tendency: new_form_tendency)
-        game.players.delete(player.id)
-        game.players << player_match_clone
       end
 
       ht_gk = at_gk = ht_def = at_def = ht_mid = at_mid = ht_att = at_att = 0
-      game.players.where(starting_11: true, position: 'G', team_id: hometeam.id).each { |player| ht_gk += player.performance }
-      game.players.where(starting_11: true, position: 'G', team_id: awayteam.id).each { |player| at_gk += player.performance }
-      game.players.where(starting_11: true, position: 'D', team_id: hometeam.id).each { |player| ht_def += player.performance }
-      game.players.where(starting_11: true, position: 'D', team_id: awayteam.id).each { |player| at_def += player.performance }
-      game.players.where(starting_11: true, position: 'M', team_id: hometeam.id).each { |player| ht_mid += player.performance }
-      game.players.where(starting_11: true, position: 'M', team_id: awayteam.id).each { |player| at_mid += player.performance }
-      game.players.where(starting_11: true, position: 'A', team_id: hometeam.id).each { |player| ht_att += player.performance }
-      game.players.where(starting_11: true, position: 'A', team_id: awayteam.id).each { |player| at_att += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'G', team_id: hometeam.id, game_id: game.id).each { |player| ht_gk += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'G', team_id: awayteam.id, game_id: game.id).each { |player| at_gk += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'D', team_id: hometeam.id, game_id: game.id).each { |player| ht_def += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'D', team_id: awayteam.id, game_id: game.id).each { |player| at_def += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'M', team_id: hometeam.id, game_id: game.id).each { |player| ht_mid += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'M', team_id: awayteam.id, game_id: game.id).each { |player| at_mid += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'A', team_id: hometeam.id, game_id: game.id).each { |player| ht_att += player.performance }
+      PlayerGameCopy.where(starting_11: true, position: 'A', team_id: awayteam.id, game_id: game.id).each { |player| at_att += player.performance }
 
       game_outcome = match_outcome(ht_gk, ht_def, ht_mid, ht_att, at_gk, at_def, at_mid, at_att)
       result = ''
@@ -143,8 +146,6 @@ module GamesDecider
     at_chances.times do
       at_goalscoring_chances += 1 if rand > at_chance_of_clearance
     end
-
-    # attackers can score, goalkeepers can save
 
     ht_chance_of_scoring = (hometeam[3] + 0.15) / (hometeam[3] + awayteam[0])
     at_chance_of_scoring = awayteam[3] / (hometeam[0] + awayteam[3])

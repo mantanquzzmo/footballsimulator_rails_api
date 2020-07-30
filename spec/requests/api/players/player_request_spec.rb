@@ -18,7 +18,7 @@ RSpec.describe 'Players', type: :request do
       end
 
       it 'presents three teams to the user' do
-        expect(response_json[0].length).to eq 13
+        expect(response_json[0].length).to eq 11
       end
 
 

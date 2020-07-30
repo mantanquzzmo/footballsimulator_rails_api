@@ -9,7 +9,6 @@ RSpec.describe Player, type: :model do
   it { is_expected.to have_db_column :form }
   it { is_expected.to have_db_column :form_tendency }
   it { is_expected.to have_db_column :starting_11 }
-    it { is_expected.to have_db_column :original_player_id }
   end
 
 

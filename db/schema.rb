@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_23_173120) do
+ActiveRecord::Schema.define(version: 2020_07_30_043214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -46,6 +46,22 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
     t.index ["team_id", "game_id"], name: "index_games_teams_on_team_id_and_game_id"
   end
 
+  create_table "player_game_copies", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "age", null: false
+    t.string "position", null: false
+    t.float "skill", null: false
+    t.integer "form", null: false
+    t.integer "form_tendency", null: false
+    t.boolean "starting_11", null: false
+    t.integer "team_id"
+    t.float "performance"
+    t.bigint "game_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_player_game_copies_on_game_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name", null: false
     t.integer "age", null: false
@@ -54,8 +70,6 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
     t.integer "form", null: false
     t.integer "form_tendency", null: false
     t.boolean "starting_11", null: false
-    t.integer "original_player_id"
-    t.float "performance"
     t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -132,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_173120) do
   end
 
   add_foreign_key "games", "seasons"
+  add_foreign_key "player_game_copies", "games"
   add_foreign_key "players", "teams"
   add_foreign_key "teams", "users"
   add_foreign_key "trainings", "players"
