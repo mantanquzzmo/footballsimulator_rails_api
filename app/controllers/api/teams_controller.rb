@@ -8,7 +8,7 @@ class Api::TeamsController < ApplicationController
     teams_to_display = []
 
     if current_user
-      teams = Team.where(user_id: current_user.id).last(3)
+      teams = Team.where(user_id: current_user.id, cpu_team: false ).last(3)
       teams_to_display << teams
     else
       teams = Team.all
@@ -58,9 +58,10 @@ class Api::TeamsController < ApplicationController
     :authenticate_user!
     team = Team.find_by(id: params[:id])
     players = Player.where(team_id: params[:id])
-    team_and_players = [team, players]
+    seasons = team.seasons.last(1)[0]
+    team_and_players_seasons = [team, players, seasons]
 
-    render json: team_and_players
+    render json: team_and_players_seasons
   end
 
 

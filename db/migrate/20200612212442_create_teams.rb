@@ -5,11 +5,11 @@ class CreateTeams < ActiveRecord::Migration[6.0]
   def change
     create_table :teams do |t|
       t.string :name
-      # , null: false
       t.string :primary_color
-      # , null: false
       t.string :secondary_color, null: true
+      t.integer :balance, default: 100
       t.belongs_to :user, foreign_key: true
+      t.boolean :cpu_team, default: false
 
       t.timestamps
     end

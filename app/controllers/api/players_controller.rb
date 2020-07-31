@@ -3,6 +3,8 @@ class Api::PlayersController < ApplicationController
     :authenticate_user!
 
     player = Player.find(params[:id])
-    render json: player
+    trainings = Training.where(player_id: params[:id])
+  
+    render json: [player, trainings]
   end
 end

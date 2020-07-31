@@ -10,11 +10,57 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_154713) do
+ActiveRecord::Schema.define(version: 2020_07_30_043214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
+
+  create_table "games", force: :cascade do |t|
+    t.integer "round", null: false
+    t.string "home_team"
+    t.string "away_team"
+    t.integer "home_team_id"
+    t.integer "away_team_id"
+    t.integer "goals_ht"
+    t.integer "goals_at"
+    t.integer "winner_team_id"
+    t.string "result"
+    t.bigint "season_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["season_id"], name: "index_games_on_season_id"
+  end
+
+  create_table "games_players", id: false, force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "player_id", null: false
+    t.index ["game_id", "player_id"], name: "index_games_players_on_game_id_and_player_id"
+    t.index ["player_id", "game_id"], name: "index_games_players_on_player_id_and_game_id"
+  end
+
+  create_table "games_teams", id: false, force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "team_id", null: false
+    t.index ["game_id", "team_id"], name: "index_games_teams_on_game_id_and_team_id"
+    t.index ["team_id", "game_id"], name: "index_games_teams_on_team_id_and_game_id"
+  end
+
+  create_table "player_game_copies", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "age", null: false
+    t.string "position", null: false
+    t.float "skill", null: false
+    t.integer "form", null: false
+    t.integer "form_tendency", null: false
+    t.boolean "starting_11", null: false
+    t.integer "team_id"
+    t.float "performance"
+    t.bigint "game_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_player_game_copies_on_game_id"
+  end
 
   create_table "players", force: :cascade do |t|
     t.string "name", null: false
@@ -23,20 +69,53 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.float "skill", null: false
     t.integer "form", null: false
     t.integer "form_tendency", null: false
+    t.boolean "starting_11", null: false
     t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
+  create_table "seasons", force: :cascade do |t|
+    t.integer "round", default: 0
+    t.integer "total_rounds"
+    t.boolean "completed", default: false
+    t.string "winner"
+    t.integer "winner_id"
+    t.string "top_goalscorer"
+    t.integer "top_goalscorer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "seasons_teams", id: false, force: :cascade do |t|
+    t.bigint "season_id", null: false
+    t.bigint "team_id", null: false
+    t.index ["season_id", "team_id"], name: "index_seasons_teams_on_season_id_and_team_id"
+    t.index ["team_id", "season_id"], name: "index_seasons_teams_on_team_id_and_season_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.string "primary_color"
     t.string "secondary_color"
+    t.integer "balance", default: 100
     t.bigint "user_id"
+    t.boolean "cpu_team", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
+  create_table "trainings", force: :cascade do |t|
+    t.integer "form_before", null: false
+    t.integer "form_after", null: false
+    t.integer "form_tendency_before", null: false
+    t.integer "form_tendency_after", null: false
+    t.bigint "player_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_trainings_on_player_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,6 +145,9 @@ ActiveRecord::Schema.define(version: 2020_06_14_154713) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "games", "seasons"
+  add_foreign_key "player_game_copies", "games"
   add_foreign_key "players", "teams"
   add_foreign_key "teams", "users"
+  add_foreign_key "trainings", "players"
 end
