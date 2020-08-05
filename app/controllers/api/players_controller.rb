@@ -12,7 +12,7 @@ class Api::PlayersController < ApplicationController
 
   def update
     player_substituting = Player.find(params[:id])
-    player_entering = Player.find(params[:substitute])
+    player_entering = Player.find(params[:substitute_id])
 
     player_substituting.update(starting_11: false)
 

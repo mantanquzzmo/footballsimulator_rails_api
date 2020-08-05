@@ -57,11 +57,18 @@ class Api::TeamsController < ApplicationController
   def show
     :authenticate_user!
     team = Team.find_by(id: params[:id])
-    starting_11 = Player.where(team_id: params[:id], starting_11: true)
+    starting_11_gk = Player.where(team_id: params[:id], starting_11: true, position: "G")
+    starting_11_def = Player.where(team_id: params[:id], starting_11: true, position: "D")
+    starting_11_mid = Player.where(team_id: params[:id], starting_11: true, position: "M")
+    starting_11_att = Player.where(team_id: params[:id], starting_11: true, position: "A")
+    
     substitutes = Player.where(team_id: params[:id], starting_11: false)
     players = []
-    players << starting_11
-    players << substitutes
+    players << starting_11_gk <<  starting_11_def << starting_11_mid << starting_11_att
+    players.flatten!
+    
+    players = [players, substitutes]
+
     seasons = team.seasons.last(1)[0]
     team_and_players_seasons = [team, players, seasons]
 
@@ -74,3 +81,5 @@ class Api::TeamsController < ApplicationController
     params.permit(:name, :primary_color, :secondary_color, :id).reject { |_k, v| v.nil? }
   end
 end
+
+

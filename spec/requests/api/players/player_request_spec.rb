@@ -43,7 +43,7 @@ RSpec.describe 'Players', type: :request do
                                      primary_color: 'teal' }, headers: headers
         players = Player.all
         player = players[0]
-        put "/api/players/#{player.id}", params: { substitute: players[1].id }, headers: headers
+        put "/api/players/#{player.id}", params: { substitute_id: players[1].id }, headers: headers
       end
 
       it 'sends a message to user when completed' do
@@ -57,7 +57,7 @@ RSpec.describe 'Players', type: :request do
                                      primary_color: 'teal' }, headers: headers
         players = Player.all
         player = players[0]
-        put "/api/players/#{player.id}", params: { substitute: players[3].id }, headers: headers
+        put "/api/players/#{player.id}", params: { substitute_id: players[3].id }, headers: headers
       end
 
       it 'sends a message to user when completed' do
