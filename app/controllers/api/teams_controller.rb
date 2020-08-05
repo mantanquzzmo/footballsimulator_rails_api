@@ -57,7 +57,11 @@ class Api::TeamsController < ApplicationController
   def show
     :authenticate_user!
     team = Team.find_by(id: params[:id])
-    players = Player.where(team_id: params[:id])
+    starting_11 = Player.where(team_id: params[:id], starting_11: true)
+    substitutes = Player.where(team_id: params[:id], starting_11: false)
+    players = []
+    players << starting_11
+    players << substitutes
     seasons = team.seasons.last(1)[0]
     team_and_players_seasons = [team, players, seasons]
 

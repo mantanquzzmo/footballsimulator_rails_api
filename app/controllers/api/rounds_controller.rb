@@ -13,6 +13,10 @@ class Api::RoundsController < ApplicationController
     
     games_decider(games)
 
+    if games[0].result != nil
+      Season.find(games[0].season_id).update(round: games[0].round)
+    end
+
     render json: games, status: 200
   end
 end
