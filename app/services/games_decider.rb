@@ -12,11 +12,12 @@ module GamesDecider
         new_form = form_calculator(player, match_performance)
         new_form_tendency = tendency_calculator(player, new_form)
         performance = player_performance(player)
-        player_match_copy = PlayerGameCopy.create(id: player.id, name: player.name, 
-                                                      age: player.age, position: player.position, skill: player.skill, 
-                                                      form: player.form, form_tendency: player.form_tendency, 
-                                                      starting_11: player.starting_11, team_id: player.team_id, 
-                                                      performance: performance, game_id: game.id)
+        player_match_copy = PlayerGameCopy.create(name: player.name,
+                                                  age: player.age, position: player.position, skill: player.skill,
+                                                  form: player.form, form_tendency: player.form_tendency,
+                                                  starting_11: player.starting_11, team_id: player.team_id,
+                                                  performance: performance, game_id: game.id, id: PlayerGameCopy.last.id + 1)
+                                                  
 
         player.update(form: new_form, form_tendency: new_form_tendency)
       end
@@ -34,14 +35,14 @@ module GamesDecider
       game_outcome = match_outcome(ht_gk, ht_def, ht_mid, ht_att, at_gk, at_def, at_mid, at_att)
       result = ''
       winning_team_id = nil
-      
+
       if game_outcome[0] > game_outcome[1]
         result = '1'
         winning_team_id = game.teams[0].id
       elsif game_outcome[1] > game_outcome[0]
         result = '2'
         winning_team_id = game.teams[1].id
-      else 
+      else
         result = 'X'
       end
 
