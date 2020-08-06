@@ -12,12 +12,20 @@ module GamesDecider
         new_form = form_calculator(player, match_performance)
         new_form_tendency = tendency_calculator(player, new_form)
         performance = player_performance(player)
-        player_match_copy = PlayerGameCopy.create(name: player.name,
-                                                  age: player.age, position: player.position, skill: player.skill,
-                                                  form: player.form, form_tendency: player.form_tendency,
-                                                  starting_11: player.starting_11, team_id: player.team_id,
-                                                  performance: performance, game_id: game.id, id: PlayerGameCopy.last.id + 1)
-                                                  
+        player_match_copy = nil
+        if PlayerGameCopy.all === []
+          player_match_copy = PlayerGameCopy.create(name: player.name,
+                                                    age: player.age, position: player.position, skill: player.skill,
+                                                    form: player.form, form_tendency: player.form_tendency,
+                                                    starting_11: player.starting_11, team_id: player.team_id,
+                                                    performance: performance, game_id: game.id, id: 1)
+        else
+          player_match_copy = PlayerGameCopy.create(name: player.name,
+                                                    age: player.age, position: player.position, skill: player.skill,
+                                                    form: player.form, form_tendency: player.form_tendency,
+                                                    starting_11: player.starting_11, team_id: player.team_id,
+                                                    performance: performance, game_id: game.id, id: PlayerGameCopy.last.id + 1)
+          end
 
         player.update(form: new_form, form_tendency: new_form_tendency)
       end
@@ -92,6 +100,7 @@ module GamesDecider
     end
 
     new_form = 20 if new_form > 20
+    new_form = 1 if new_form < 1
 
     new_form
   end

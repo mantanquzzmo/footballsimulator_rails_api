@@ -47,9 +47,9 @@ class Api::SeasonsController < ApplicationController
     league_table_info = []
 
     season.teams.each do |team|
-      points = (Game.where(winner_team_id: team.id).length * 3) + (Game.where(result: "X")).length
-      wins = Game.where(winner_team_id: team.id).length 
-      draws = Game.where(result: 'X').length 
+      points = (Game.where(winner_team_id: team.id, season_id: params[:id]).length * 3) + (Game.where(result: "X", season_id: params[:id])).length
+      wins = Game.where(winner_team_id: team.id, season_id: params[:id]).length 
+      draws = Game.where(result: 'X', season_id: params[:id]).length 
       losses = season.round - (wins + draws)
       played = wins + draws + losses
       goals_for = 0
