@@ -68,7 +68,6 @@ class Api::TeamsController < ApplicationController
     players.flatten!
     
     players = [players, substitutes]
-
     seasons = team.seasons.last(1)[0]
     team_and_players_seasons = [team, players, seasons]
 
