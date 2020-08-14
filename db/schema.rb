@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2020_07_30_043214) do
     t.integer "form", null: false
     t.integer "form_tendency", null: false
     t.boolean "starting_11", null: false
+    t.integer "original_player_id"
     t.integer "team_id"
     t.float "performance"
     t.bigint "game_id"

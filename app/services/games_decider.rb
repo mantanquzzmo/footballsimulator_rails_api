@@ -18,13 +18,13 @@ module GamesDecider
                                                     age: player.age, position: player.position, skill: player.skill,
                                                     form: player.form, form_tendency: player.form_tendency,
                                                     starting_11: player.starting_11, team_id: player.team_id,
-                                                    performance: performance, game_id: game.id, id: 1)
+                                                    performance: performance, game_id: game.id, id: 1, original_player_id: player.id)
         else
           player_match_copy = PlayerGameCopy.create(name: player.name,
                                                     age: player.age, position: player.position, skill: player.skill,
                                                     form: player.form, form_tendency: player.form_tendency,
                                                     starting_11: player.starting_11, team_id: player.team_id,
-                                                    performance: performance, game_id: game.id, id: PlayerGameCopy.last.id + 1)
+                                                    performance: performance, game_id: game.id, id: PlayerGameCopy.last.id + 1, original_player_id: player.id)
           end
 
         player.update(form: new_form, form_tendency: new_form_tendency)
