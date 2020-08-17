@@ -8,7 +8,7 @@ class CreatePlayerGameCopies < ActiveRecord::Migration[6.0]
       t.integer :form, null: false
       t.integer :form_tendency, null: false
       t.boolean :starting_11, null: false
-      # t.integer :player_id
+      t.integer :original_player_id
       t.integer :team_id
       t.float :performance
       
