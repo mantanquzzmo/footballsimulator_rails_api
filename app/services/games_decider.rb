@@ -12,7 +12,7 @@ module GamesDecider
         new_form = form_calculator(player, match_performance)
         new_form_tendency = tendency_calculator(player, new_form)
         performance = player_performance(player)
-        player_match_copy = PlayerGameCopy.create(id: player.id, name: player.name, 
+        player_match_copy = PlayerGameCopy.create(player_id: player.id, name: player.name, 
                                                       age: player.age, position: player.position, skill: player.skill, 
                                                       form: player.form, form_tendency: player.form_tendency, 
                                                       starting_11: player.starting_11, team_id: player.team_id, 

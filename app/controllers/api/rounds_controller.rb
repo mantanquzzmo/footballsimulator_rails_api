@@ -13,6 +13,14 @@ class Api::RoundsController < ApplicationController
     
     games_decider(games)
 
+    season = Season.find(params[:season_id])
+
+    if games[0].round != nil then
+      season.update(round: games[0].round)
+    end
+
+    #seasonwinner update
+
     render json: games, status: 200
   end
 end
