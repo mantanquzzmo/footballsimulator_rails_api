@@ -3,8 +3,8 @@
 module GamesDecider
   def games_decider(games)
     games.each do |game|
-      hometeam = game.teams[0]
-      awayteam = game.teams[1]
+      hometeam = Team.where(name: game.home_team)[0]
+      awayteam = Team.where(name: game.away_team)[0]
 
       ## calculate each starting players values
       game.players.where(starting_11: true).each do |player|
@@ -22,6 +22,7 @@ module GamesDecider
       end
 
       ht_gk = at_gk = ht_def = at_def = ht_mid = at_mid = ht_att = at_att = 0
+
       PlayerGameCopy.where(starting_11: true, position: 'G', team_id: hometeam.id, game_id: game.id).each { |player| ht_gk += player.performance }
       PlayerGameCopy.where(starting_11: true, position: 'G', team_id: awayteam.id, game_id: game.id).each { |player| at_gk += player.performance }
       PlayerGameCopy.where(starting_11: true, position: 'D', team_id: hometeam.id, game_id: game.id).each { |player| ht_def += player.performance }
@@ -37,15 +38,16 @@ module GamesDecider
       
       if game_outcome[0] > game_outcome[1]
         result = '1'
-        winning_team_id = game.teams[0].id
-      elsif game_outcome[1] > game_outcome[0]
+        winning_team_id = hometeam.id
+      elsif game_outcome[0] < game_outcome[1]
         result = '2'
-        winning_team_id = game.teams[1].id
+        winning_team_id = awayteam.id
       else 
         result = 'X'
       end
 
       game.update(goals_ht: game_outcome[0], goals_at: game_outcome[1], winner_team_id: winning_team_id, result: result)
+
     end
   end
 

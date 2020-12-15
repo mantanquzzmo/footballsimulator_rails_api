@@ -47,24 +47,20 @@ class Api::SeasonsController < ApplicationController
     league_table_info = []
 
     season.teams.each do |team|
-      points = (Game.where(winner_team_id: team.id).length * 3) + (Game.where(result: "X")).length
-      wins = Game.where(winner_team_id: team.id).length 
-      draws = Game.where(result: 'X').length 
-      losses = season.round - (wins + draws)
+      wins = Game.where(winner_team_id: team.id).length
+      draws = Game.where(home_team_id: team.id, result: "X").or(Game.where(away_team_id: team.id, result: "X")).length
+      losses = Game.where(home_team_id: team.id).where.not(winner_team_id: team.id).or(Game.where(away_team_id: team.id).where.not(winner_team_id: team.id)).length
+      points = ( wins * 3 ) + ( draws )
       played = wins + draws + losses
       goals_for = 0
       goals_against = 0
       goal_difference = 0
       (Game.where(home_team_id: team.id).where.not(result: nil)).each do |game|
         goals_for += game.goals_ht
-      end
-      (Game.where(away_team_id: team.id).where.not(result: nil)).each do |game|
-        goals_for += game.goals_at
-      end
-      (Game.where(home_team_id: team.id).where.not(result: nil)).each do |game|
         goals_against += game.goals_at
       end
       (Game.where(away_team_id: team.id).where.not(result: nil)).each do |game|
+        goals_for += game.goals_at
         goals_against += game.goals_ht
       end
 
@@ -72,6 +68,6 @@ class Api::SeasonsController < ApplicationController
       league_table_info << team_current_standing
     end
 
-    render json: league_table_info.sort_by{|x| x[8]}.reverse
+    render json: league_table_info.sort_by{|x| x[9] }.reverse
   end
 end

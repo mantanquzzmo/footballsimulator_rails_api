@@ -15,7 +15,7 @@ RSpec.describe 'Seasons', type: :request do
       season.update(round: 2)
       games_round_1 = Game.where(round: 1)
       games_round_1[0].update(goals_ht: 2, goals_at: 1, winner_team_id: games_round_1[0].home_team_id, result: '1')
-      games_round_1[1].update(goals_ht: 3, goals_at: 2, winner_team_id: games_round_1[1].home_team_id, result: '1')
+      games_round_1[1].update(goals_ht: 3, goals_at: 4, winner_team_id: games_round_1[1].away_team_id, result: '2')
       games_round_1[2].update(goals_ht: 4, goals_at: 2, winner_team_id: games_round_1[2].home_team_id, result: '1')
       games_round_2 = Game.where(round: 2)
       games_round_2[0].update(goals_ht: 2, goals_at: 1, winner_team_id: games_round_2[0].home_team_id, result: '1')
@@ -26,6 +26,10 @@ RSpec.describe 'Seasons', type: :request do
 
     it 'return the current standing' do
       expect(response_json.length).to eq 6
+    end
+
+    it 'with detailed info' do
+      expect(response_json[0].length).to eq 10
     end
 
     it 'with detailed info' do
