@@ -9,7 +9,9 @@ class Api::RoundsController < ApplicationController
   end
 
   def update
+
     games = Game.where(season_id: params[:season_id], round: params[:round])
+
     
     games_decider(games)
 
