@@ -37,4 +37,20 @@ RSpec.describe 'Seasons', type: :request do
       expect(response_json[1][0]["user_id"]).not_to eq response_json[1][2]["user_id"]
     end
   end
+
+  describe 'Second season creator' do
+    let(:user) { create(:user) }
+    let(:credentials) { user.create_new_auth_token }
+    let!(:headers) { { HTTP_ACCEPT: 'application/json' }.merge!(credentials) }
+    let(:team) { create(:team, user_id: user.id) }
+    let!(:season) { create(:season, completed: true) }
+
+    before do
+      post '/api/seasons', params: { team_id: team.id }, headers: headers
+    end
+
+    it 'presents the season, teams and the schedule' do
+      expect(response_json.length).to eq 3
+    end
+  end
 end
