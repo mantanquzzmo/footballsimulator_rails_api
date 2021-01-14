@@ -53,11 +53,15 @@ RSpec.describe "Rounds", type: :request do
     end
 
     it 'returns the results of the round' do
-      expect(response_json.length).to eq 3
+      expect(response_json[0].length).to eq 3
+    end
+
+    it 'returns the information of the season' do
+      expect(response_json[1].length).to eq 10
     end
 
     it 'with each games corresponding info' do
-      expect(response_json[0].length).to eq 13
+      expect(response_json[0][0].length).to eq 13
     end
   end
 
@@ -94,13 +98,16 @@ RSpec.describe "Rounds", type: :request do
       put "/api/rounds/", params: { season_id: season.id, round: 5 }, headers: headers
     end
 
-    it 'returns the results of the round' do
-      binding.pry
-      expect(response_json.length).to eq 3
+    it 'returns an array of games and season' do
+      expect(response_json.length).to eq 2
     end
 
-    it 'with each games corresponding info' do
-      expect(response_json[0].length).to eq 13
+    it 'returns a completed season' do
+      expect(response_json[1]["completed"]).to eq true
+    end
+
+    it 'returns a season with a winner' do
+      expect(response_json[1]["winner"]).not_to eq nil
     end
   end
 end
