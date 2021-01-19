@@ -3,7 +3,7 @@
 require 'round_robin_tournament'
 
 class Api::SeasonsController < ApplicationController
-  include GamesCreator, TeamsCreator, PlayersCreator
+  include GamesCreator, TeamsCreator, PlayersCreator, LeagueCalculator
 
   def create
     :authenticate_user!
@@ -46,32 +46,8 @@ class Api::SeasonsController < ApplicationController
     season = Season.find(params[:id])
     league_table_info = []
 
-    season.teams.each do |team|
-      points = (Game.where(winner_team_id: team.id).length * 3) + (Game.where(result: "X")).length
-      wins = Game.where(winner_team_id: team.id).length 
-      draws = Game.where(result: 'X').length 
-      losses = season.round - (wins + draws)
-      played = wins + draws + losses
-      goals_for = 0
-      goals_against = 0
-      goal_difference = 0
-      (Game.where(home_team_id: team.id).where.not(result: nil)).each do |game|
-        goals_for += game.goals_ht
-      end
-      (Game.where(away_team_id: team.id).where.not(result: nil)).each do |game|
-        goals_for += game.goals_at
-      end
-      (Game.where(home_team_id: team.id).where.not(result: nil)).each do |game|
-        goals_against += game.goals_at
-      end
-      (Game.where(away_team_id: team.id).where.not(result: nil)).each do |game|
-        goals_against += game.goals_ht
-      end
+    league_table_info = league_table_calculator(season)
 
-      team_current_standing = [team.name, team.id, played, wins, draws, losses, goals_for, goals_against, (goals_for - goals_against), points]
-      league_table_info << team_current_standing
-    end
-
-    render json: league_table_info.sort_by{|x| x[8]}.reverse
+    render json: league_table_info.sort_by{|x| [x[9], x[8]] }.reverse
   end
 end

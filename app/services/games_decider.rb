@@ -3,8 +3,9 @@
 module GamesDecider
   def games_decider(games)
     games.each do |game|
-      hometeam = game.teams[0]
-      awayteam = game.teams[1]
+
+      hometeam = Team.find(game.home_team_id)
+      awayteam = Team.find(game.away_team_id)
 
       ## calculate each starting players values
       game.players.where(starting_11: true).each do |player|
@@ -12,7 +13,7 @@ module GamesDecider
         new_form = form_calculator(player, match_performance)
         new_form_tendency = tendency_calculator(player, new_form)
         performance = player_performance(player)
-        player_match_copy = PlayerGameCopy.create(id: player.id, name: player.name, 
+        player_match_copy = PlayerGameCopy.create(player_id: player.id, name: player.name, 
                                                       age: player.age, position: player.position, skill: player.skill, 
                                                       form: player.form, form_tendency: player.form_tendency, 
                                                       starting_11: player.starting_11, team_id: player.team_id, 
@@ -22,6 +23,7 @@ module GamesDecider
       end
 
       ht_gk = at_gk = ht_def = at_def = ht_mid = at_mid = ht_att = at_att = 0
+
       PlayerGameCopy.where(starting_11: true, position: 'G', team_id: hometeam.id, game_id: game.id).each { |player| ht_gk += player.performance }
       PlayerGameCopy.where(starting_11: true, position: 'G', team_id: awayteam.id, game_id: game.id).each { |player| at_gk += player.performance }
       PlayerGameCopy.where(starting_11: true, position: 'D', team_id: hometeam.id, game_id: game.id).each { |player| ht_def += player.performance }
@@ -31,21 +33,23 @@ module GamesDecider
       PlayerGameCopy.where(starting_11: true, position: 'A', team_id: hometeam.id, game_id: game.id).each { |player| ht_att += player.performance }
       PlayerGameCopy.where(starting_11: true, position: 'A', team_id: awayteam.id, game_id: game.id).each { |player| at_att += player.performance }
 
+
       game_outcome = match_outcome(ht_gk, ht_def, ht_mid, ht_att, at_gk, at_def, at_mid, at_att)
       result = ''
       winning_team_id = nil
       
       if game_outcome[0] > game_outcome[1]
         result = '1'
-        winning_team_id = game.teams[0].id
-      elsif game_outcome[1] > game_outcome[0]
+        winning_team_id = hometeam.id
+      elsif game_outcome[0] < game_outcome[1]
         result = '2'
-        winning_team_id = game.teams[1].id
+        winning_team_id = awayteam.id
       else 
         result = 'X'
       end
 
       game.update(goals_ht: game_outcome[0], goals_at: game_outcome[1], winner_team_id: winning_team_id, result: result)
+
     end
   end
 
