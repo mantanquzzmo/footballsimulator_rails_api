@@ -1,24 +1,44 @@
-# README
+# Football Simulator API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+Football Simulator is a game. A game where you can create your own football team, foster your players and win championships! The client interface is built on React with redux whilst the backend is Ruby-on-Rails.
 
-* Ruby version
 
-* System dependencies
+## Dependencies
+- Ruby 2.6.3
+- Rails 6.0.3
+- rack-cors
+- devise_token_auth
 
-* Configuration
+## To run locally
+#### Clone repository
+```
+$ git clone https://github.com/mantanquzzmo/footballsimulator_rails_api.git
+```
+```
+$ cd footballsimulator_rails_api
+```
 
-* Database creation
+#### Install dependencies
+Install Rspec and dependencies
+```
+$ bundle
+```
 
-* Database initialization
+## Run testing frameworks
+In console:
+Run Rspec 
+```
+$ rspec
+```
 
-* How to run the test suite
+## Actions available to the user
 
-* Services (job queues, cache servers, search engines, etc.)
+Create a team and play a couple of seasons!
 
-* Deployment instructions
+## Updates/Improvement plans
+- Add turn-based multiplayer support
+- Decide starting 11
 
-* ...
+## License
+Created under the <a href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>.
